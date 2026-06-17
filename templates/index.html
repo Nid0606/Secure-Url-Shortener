@@ -1,0 +1,73 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL SHORTENER</title>
+<style>
+body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .dynamic-link {
+            margin-top: 25px;
+            font-size: 16px;
+            color: #28a745;
+            text-decoration: none;
+            font-weight: bold;
+            word-break: break-all;
+        }
+        .dynamic-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+    </head>
+
+<body>
+    <h2>Test URL Shorterner Connection</h2>
+
+    <input type="text" id="longUrl" placeholder="Paste your long URL here..." value="https://github.com">
+        <button id="sendBtn">Shorten URL</button>
+
+    
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
