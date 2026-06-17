@@ -9,12 +9,12 @@ def test_shorten():
     data=request.get_json()
 
     if not data or 'long_url' in data:
-        return jsonify("error":"Missing long_url parameter")
+        return jsonify({"error":"Missing long_url parameter"})
     
     print(f" Backend recieved URL successfully: {data['long_url']}")
 
     return jsonify({
-        "message":"Connection Established!"
+        "message": "Connection Established!",
         "short_url": "https://your-codespace-url-here/test123"
     }), 200
 
