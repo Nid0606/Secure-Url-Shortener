@@ -1,8 +1,7 @@
 // frontend/script.js
 const button = document.getElementById('sendBtn');
 const input = document.getElementById('longUrl');
-
-const BACKEND_URL = 'https://jubilant-umbrella-x5xq979rwq49f6rp4-5000.app.github.dev/';
+const BACKEND_URL = 'https://effective-space-giggle-5gpr4xx5p7jx346q4-5000.app.github.dev/api/shorten';
 
 button.addEventListener('click', async () => {
     console.log("Sending request to backend...");
