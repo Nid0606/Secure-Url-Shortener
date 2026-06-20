@@ -22,7 +22,6 @@ def generate_short_code(length=6):
     characters = string.ascii_letters + string.digits
     while True:
         code = ''.join(secrets.choice(characters) for _ in range(length))
-        # Double check the DB to ensure this random code isn't a duplicate
         already_exists = URLMapping.query.filter_by(short_code=code).first()
         if not already_exists:
             return code
@@ -38,9 +37,8 @@ def shorten_url():
         return jsonify({"error": "Missing long_url parameter"}), 400
         
     original_url = data['long_url']
-    requested_length = data.get('length', 6) # Read slider length from frontend
+    requested_length = data.get('length', 6) 
     
-    # Generate real code & save to SQLite database file
     short_code = generate_short_code(length=int(requested_length))
     
     new_mapping = URLMapping(long_url=original_url, short_code=short_code)
