@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL SHORTENER</title>
 <style>
-body {
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
             display: flex;
@@ -41,7 +41,17 @@ body {
         button:hover {
             background-color: #0056b3;
         }
-        
+        .slider-container { margin: 15px 0; }
+        #resultPanel {
+            display: none;
+            background: #eef9ff;
+            border: 1px solid #bce1ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
         .dynamic-link {
             margin-top: 25px;
             font-size: 16px;
@@ -53,15 +63,36 @@ body {
         .dynamic-link:hover {
             text-decoration: underline;
         }
+        #shortLinkDisplay {
+            word-break: break-all;
+            font-weight: bold;
+            color: #0066cc;
+        }
+        #copyBtn {
+            background-color: #28a745;
+            margin-top: 10px;
+        }
+        #copyBtn:hover { background-color: #218838; }
     </style>
     </head>
 
 <body>
     <h2>Test URL Shorterner Connection</h2>
-
+    <label for="longUrl">Enter Long URL:</label>
     <input type="text" id="longUrl" placeholder="Paste your long URL here..." value="https://github.com">
-        <button id="sendBtn">Shorten URL</button>
+    
+    <div class="slider-container">
+        <label for="lengthSlider">Short Code Length: <span id="lengthVal">6</span></label>
+        <input type="range" id="lengthSlider" min="4" max="12" value="6" style="width: 100%;">
+    </div>
 
+    <button id="sendBtn">Generate Short Link</button>
+
+    <div id="resultPanel">
+        <p>Your Shortened Link:</p>
+        <p id="shortLinkDisplay"></p>
+        <button id="copyBtn">Copy to Clipboard</button>
+    </div>
     
     <script src="script.js"></script>
 </body>
