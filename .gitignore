@@ -1,7 +1,5 @@
-# Ignore the SQLite database instance folder
 backend/instance/
 *.db
 
-# Ignore Python cache files (makes your repository cleaner)
 __pycache__/
 *.pyc
