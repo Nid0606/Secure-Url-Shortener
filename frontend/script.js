@@ -11,7 +11,7 @@ slider.addEventListener('input', () => {
     lengthVal.textContent = slider.value;
 });
 
-const BACKEND_URL = 'https://effective-space-giggle-5gpr4xx5p7jx346q4-5000.app.github.dev/api/shorten';
+const BACKEND_URL = 'https://psychic-system-5gw56r57gw7cvpx7-5000.app.github.dev/api/shorten';
 
 button.addEventListener('click', async () => {
     button.textContent = "Generating...";
@@ -32,8 +32,8 @@ button.addEventListener('click', async () => {
         if (response.ok) {
             resultPanel.style.display = 'block';
             
-            const baseAddress = BACKEND_URL.replace('/api/shorten', ''); 
-            shortLinkDisplay.textContent = `${baseAddress}/${data.short_code}`;
+            const frontendBase = window.location.origin + window.location.pathname.replace('index.html', '');
+            shortLinkDisplay.textContent = `${frontendBase}redirect.html?code=${data.short_code}`;
         }
         else {
             alert("Backend Error: " + data.error);

@@ -74,9 +74,8 @@
 </div>
 
 <script>
-    const BACKEND_BASE = 'https://effective-space-giggle-5gpr4xx5p7jx346q4-5000.app.github.dev';
+    const BACKEND_BASE = 'https://psychic-system-5gw56r57gw7cvpx7-5000.app.github.dev/';
 
-    // Extract '?code=xyz' from the URL
     const urlParams = new URLSearchParams(window.location.search);
     const shortCodeParam = urlParams.get('code');
 
@@ -89,7 +88,6 @@
         statusMsg.style.color = '#dc3545';
         statusMsg.textContent = "Error: No short code provided.";
     } else {
-        // Query your Phase 3 Flask route
         fetch(`${BACKEND_BASE}/api/redirect/${shortCodeParam}`)
             .then(res => {
                 if (!res.ok) {

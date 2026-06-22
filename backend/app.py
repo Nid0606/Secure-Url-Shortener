@@ -51,5 +51,23 @@ def shorten_url():
         "long_url": original_url 
     }), 200
 
+@app.route('/api/redirect/<short_code>', methods=['GET'])
+def get_destination_url(short_code):
+    url_record = URLMapping.query.filter_by(short_code=short_code).first()
+    
+    if not url_record:
+        return jsonify({"error": "Shortened URL not found"}), 404
+        
+    if url_record.is_suspended:
+        return jsonify({
+            "error": "URL_SUSPENDED",
+            "message": "This link has been blocked because it was flagged as unsafe by the community."
+        }), 403
+        
+    return jsonify({
+        "short_code": short_code,
+        "long_url": url_record.long_url
+    }), 200
+
 if __name__=="__main__":
     app.run(debug=True, port=5000)
