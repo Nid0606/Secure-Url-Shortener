@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Redirector | Gatekeeper</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
+        .warning-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .url-box {
+            background: #f8f9fa;
+            border: 1px dashed #007bff;
+            padding: 12px;
+            word-break: break-all;
+            font-size: 16px;
+            font-weight: bold;
+            color: #007bff;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .btn-proceed {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .btn-proceed:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2 style="color: #dc3545; margin-bottom: 15px;">⚠️ Security Check</h2>
+    <p id="statusMsg" style="color: #666; font-style: italic;">Verifying destination link details with backend...</p>
+    
+    <div id="redirectContent" style="display: none;">
+        <div class="warning-box">Hold on! You are being redirected.</div>
+        <p>This shortened link points to the following destination:</p>
+        <div class="url-box" id="unmaskedUrl"></div>
+        <p>Verify this address is safe before proceeding.</p>
+        <a href="#" id="confirmProceedBtn" class="btn-proceed">Proceed to Website</a>
+    </div>
+</div>
+
+<script>
+    const BACKEND_BASE = 'https://effective-space-giggle-5gpr4xx5p7jx346q4-5000.app.github.dev';
+
+    // Extract '?code=xyz' from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const shortCodeParam = urlParams.get('code');
+
+    const statusMsg = document.getElementById('statusMsg');
+    const redirectContent = document.getElementById('redirectContent');
+    const unmaskedUrl = document.getElementById('unmaskedUrl');
+    const confirmProceedBtn = document.getElementById('confirmProceedBtn');
+
+    if (!shortCodeParam) {
+        statusMsg.style.color = '#dc3545';
+        statusMsg.textContent = "Error: No short code provided.";
+    } else {
+        // Query your Phase 3 Flask route
+        fetch(`${BACKEND_BASE}/api/redirect/${shortCodeParam}`)
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(err => { throw new Error(err.message || err.error) });
+                }
+                return res.json();
+            })
+            .then(data => {
+                statusMsg.style.display = 'none';
+                unmaskedUrl.textContent = data.long_url;
+                confirmProceedBtn.href = data.long_url;
+                redirectContent.style.display = 'block';
+            })
+            .catch(err => {
+                statusMsg.style.color = '#dc3545';
+                statusMsg.style.fontWeight = 'bold';
+                statusMsg.textContent = `Error: ${err.message || "Failed to fetch link details."}`;
+            });
+    }
+</script>
+</body>
+</html>
