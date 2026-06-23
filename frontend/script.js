@@ -1,4 +1,4 @@
-// frontend/script.js
+const customCodeInput = document.getElementById('customCode');
 const button = document.getElementById('sendBtn');
 const input = document.getElementById('longUrl');
 const slider = document.getElementById('lengthSlider');
@@ -23,7 +23,8 @@ button.addEventListener('click', async () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 long_url: input.value,
-                length: slider.value
+                length: slider.value,
+                custom_code: customCodeInput.value
             })
         });
         
@@ -36,6 +37,7 @@ button.addEventListener('click', async () => {
             shortLinkDisplay.textContent = `${frontendBase}redirect.html?code=${data.short_code}`;
         }
         else {
+            const errorMsg = data.message || data.error || "An unknown error occurred.";
             alert("Backend Error: " + data.error);
         }
     } 
