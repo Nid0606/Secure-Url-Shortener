@@ -1,6 +1,8 @@
 import re
 import requests
 import base64
+import os
+from dotenv import load_dotenv
 
 BRAND_BLOCKLIST = [
     'google', 'paypal', 'amazon', 'netflix', 'facebook', 'instagram', 'twitter', 'microsoft', 'apple', 'linkedin',
@@ -16,8 +18,10 @@ def is_brand_impersonation(custom_code):
             return True
     return False
 
-GOOGLE_API_KEY = "AIzaSyBRbb_ixN98FCeyneVToXoymxOIPBNP_as"
-VT_API_KEY = "11ea9da27d730ecb634a6d90befd2cd3b70fb2344df792a820c784deac3fb407"
+load_dotenv()
+
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+VT_API_KEY = os.getenv("VT_API_KEY")
 
 SAFE_BROWSING_URL = f"https://safebrowsing.googleapis.com/v4/threatMatches:find?key={GOOGLE_API_KEY}"
 
