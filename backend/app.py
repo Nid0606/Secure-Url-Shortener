@@ -3,6 +3,7 @@ import secrets
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from security import is_brand_impersonation, is_url_malicious
 
 app=Flask(__name__)
 CORS(app)
@@ -37,9 +38,35 @@ def shorten_url():
         return jsonify({"error": "Missing long_url parameter"}), 400
         
     original_url = data['long_url']
+    custom_code = data.get('custom_code')
     requested_length = data.get('length', 6) 
     
-    short_code = generate_short_code(length=int(requested_length))
+    if is_url_malicious(original_url):
+        return jsonify({
+            "error": "SECURITY_BLOCK",
+            "message": "Access Denied: The destination URL has been flagged as malicious or suspicious by safety APIs."
+        }), 400
+    
+    if custom_code:
+        custom_code = custom_code.strip()
+
+        already_exists = URLMapping.query.filter_by(short_code=custom_code).first()
+        if already_exists:
+            return jsonify({
+                "error": "ALREADY_TAKEN",
+                "message": "This custom alias is already taken."
+            }), 400
+        
+        if is_brand_impersonation(custom_code):
+            return jsonify({
+                "error": "BRAND_PROTECTION_BLOCK",
+                "message": "Security Restriction: Custom alias contains a protected trademark to prevent phishing."
+            }), 403
+        
+        short_code = custom_code
+    else:
+        short_code = generate_short_code(length=int(requested_length))
+    
     
     new_mapping = URLMapping(long_url=original_url, short_code=short_code)
     db.session.add(new_mapping)
