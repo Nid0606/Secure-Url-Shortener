@@ -96,5 +96,39 @@ def get_destination_url(short_code):
         "long_url": url_record.long_url
     }), 200
 
+@app.route('/api/report', methods=['POST'])
+def report_url():
+    data = request.get_json()
+    
+    if not data or 'short_code' not in data:
+        return jsonify({"error": "Missing short_code parameter"}), 400
+        
+    short_code = data['short_code'].strip()
+    url_record = URLMapping.query.filter_by(short_code=short_code).first()
+    
+    if not url_record:
+        return jsonify({"error": "Shortened URL not found"}), 404
+        
+    if url_record.is_suspended:
+        return jsonify({
+            "message": "This URL is already suspended.",
+            "is_suspended": True
+        }), 200
+
+    url_record.report_count += 1
+    
+    REPORT_THRESHOLD = 5
+    if url_record.report_count >= REPORT_THRESHOLD:
+        url_record.is_suspended = True
+        print(f"🚫 [COMMUNITY BLOCK] URL {short_code} suspended due to excessive reports ({url_record.report_count}).")
+        
+    db.session.commit()
+    
+    return jsonify({
+        "message": "Report submitted successfully.",
+        "report_count": url_record.report_count,
+        "is_suspended": url_record.is_suspended
+    }), 200
+
 if __name__=="__main__":
     app.run(debug=True, port=5000)
