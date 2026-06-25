@@ -1,3 +1,10 @@
+(function wakeUpBackend() {
+    const BACKEND_PING_URL = 'https://api.n06.me/api/redirect/ping';
+    console.log("Initializing silent background wake-up call to Render...");
+    fetch(BACKEND_PING_URL).catch(() => {
+    });
+})();
+
 const customCodeInput = document.getElementById('customCode');
 const button = document.getElementById('sendBtn');
 const input = document.getElementById('longUrl');
@@ -14,41 +21,59 @@ slider.addEventListener('input', () => {
 const BACKEND_URL = 'https://api.n06.me/api/shorten';
 
 button.addEventListener('click', async () => {
-    button.textContent = "Generating...";
+    button.textContent = "Waking up secure server (takes up to 1 min)...";
     button.disabled = true;
     
-    try {
-        const response = await fetch(BACKEND_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                long_url: input.value,
-                length: slider.value,
-                custom_code: customCodeInput.value
-            })
-        });
-        
-        const data = await response.json();
+    const maxRetries = 3;
+    let attempt = 0;
+    let success = false;
+    let responseData = null;
 
-        if (response.ok) {
-            resultPanel.style.display = 'block';
+    while (attempt < maxRetries && !success) {
+        try {
+            attempt++;
+            if (attempt > 1) {
+                button.textContent = `Retrying connection (Attempt ${attempt}/${maxRetries})...`;
+            }
+
+            const response = await fetch(BACKEND_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    long_url: input.value,
+                    length: slider.value,
+                    custom_code: customCodeInput.value
+                })
+            });
             
-            const frontendBase = window.location.origin + window.location.pathname.replace('index.html', '');
-            shortLinkDisplay.textContent = `${frontendBase}redirect.html?code=${data.short_code}`;
+            responseData = await response.json();
+
+            if (response.ok) {
+                success = true;
+                resultPanel.style.display = 'block';
+                
+                const productionDomain = "n06.me";
+                shortLinkDisplay.textContent = `https://${responseData.short_code}.${productionDomain}`;
+            } else {
+                const errorMsg = responseData.message || responseData.error || "An unknown error occurred.";
+                alert("Backend Error: " + errorMsg);
+                success = true;
+            }
+        } 
+        catch (error) {
+            console.warn(`Connection attempt ${attempt} failed. Server might still be waking up.`, error);
+            if (attempt < maxRetries) {
+                await new Promise(resolve => setTimeout(resolve, 4000));
+            }
         }
-        else {
-            const errorMsg = data.message || data.error || "An unknown error occurred.";
-            alert("Backend Error: " + data.error);
-        }
-    } 
-    catch (error) {
-        console.error("Connection failed:", error);
-        alert("Could not connect to backend server.");
     }
-    finally {
-        button.textContent = "Generate Short Link";
-        button.disabled = false;
+
+    if (!success) {
+        alert("Could not connect to backend server. The server is taking too long to wake up. Please refresh and try again in 30 seconds.");
     }
+
+    button.textContent = "Generate Short Link";
+    button.disabled = false;
 });
 
 copyBtn.addEventListener('click', () => {
