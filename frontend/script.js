@@ -48,7 +48,8 @@ button.addEventListener('click', async () => {
                 resultPanel.style.display = 'block';
                 shortLinkDisplay.textContent = `https://${responseData.short_code}.n06.me`;
             } else {
-                alert(responseData.message || responseData.error || "An error occurred.");
+                const errorMsg = responseData.message || responseData.error || "The server rejected the request.";
+                alert("Backend Error: " + errorMsg);
                 success = true; 
             }
         } 
