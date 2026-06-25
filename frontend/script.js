@@ -21,21 +21,16 @@ slider.addEventListener('input', () => {
 const BACKEND_URL = 'https://api.n06.me/api/shorten';
 
 button.addEventListener('click', async () => {
-    button.textContent = "Waking up secure server (takes up to 1 min)...";
+    button.textContent = "Generating...";
     button.disabled = true;
     
     const maxRetries = 3;
     let attempt = 0;
     let success = false;
-    let responseData = null;
 
     while (attempt < maxRetries && !success) {
         try {
             attempt++;
-            if (attempt > 1) {
-                button.textContent = `Retrying connection (Attempt ${attempt}/${maxRetries})...`;
-            }
-
             const response = await fetch(BACKEND_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -46,30 +41,27 @@ button.addEventListener('click', async () => {
                 })
             });
             
-            responseData = await response.json();
+            const responseData = await response.json();
 
             if (response.ok) {
                 success = true;
                 resultPanel.style.display = 'block';
-                
-                const productionDomain = "n06.me";
-                shortLinkDisplay.textContent = `https://${responseData.short_code}.${productionDomain}`;
+                shortLinkDisplay.textContent = `https://${responseData.short_code}.n06.me`;
             } else {
-                const errorMsg = responseData.message || responseData.error || "An unknown error occurred.";
-                alert("Backend Error: " + errorMsg);
-                success = true;
+                alert(responseData.message || responseData.error || "An error occurred.");
+                success = true; 
             }
         } 
         catch (error) {
-            console.warn(`Connection attempt ${attempt} failed. Server might still be waking up.`, error);
+            console.warn(`Attempt ${attempt} failed.`);
             if (attempt < maxRetries) {
-                await new Promise(resolve => setTimeout(resolve, 4000));
+                await new Promise(resolve => setTimeout(resolve, 3000)); // Quietly wait 3 seconds
             }
         }
     }
 
     if (!success) {
-        alert("Could not connect to backend server. The server is taking too long to wake up. Please refresh and try again in 30 seconds.");
+        alert("Server connection timeout. Please try again in a few moments.");
     }
 
     button.textContent = "Generate Short Link";
