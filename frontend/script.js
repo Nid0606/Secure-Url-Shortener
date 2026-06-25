@@ -11,7 +11,7 @@ slider.addEventListener('input', () => {
     lengthVal.textContent = slider.value;
 });
 
-const BACKEND_URL = 'https://psychic-system-5gw56r57gw7cvpx7-5000.app.github.dev/api/shorten';
+const BACKEND_URL = 'https://api.n06.me/api/shorten';
 
 button.addEventListener('click', async () => {
     button.textContent = "Generating...";
