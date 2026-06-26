@@ -1,5 +1,6 @@
 import os
 import string
+import re
 import secrets
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -12,7 +13,7 @@ CORS(app, resources={
         "origins": [
             "https://n06.me", 
             "https://www.n06.me",
-            "https://*.n06.me"  # 🚀 Native wildcard matching for all subdomains
+            re.compile(r"^https://.*\.n06\.me$")  # 🚀 REAL wildcard matching using regex
         ],
         "methods": ["POST", "GET", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
