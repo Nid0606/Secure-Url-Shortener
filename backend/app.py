@@ -7,7 +7,13 @@ from flask_sqlalchemy import SQLAlchemy
 from security import is_brand_impersonation, is_url_malicious
 
 app=Flask(__name__)
-CORS(app)
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["https://n06.me", "https://www.n06.me"],
+        "methods": ["POST", "GET", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
