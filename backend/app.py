@@ -12,7 +12,7 @@ CORS(app, resources={
         "origins": [
             "https://n06.me", 
             "https://www.n06.me",
-            re.compile(r"^https://[^/]+\.n06\.me$") # 🚀 Allows all custom subdomains!
+            "https://*.n06.me"  # 🚀 Native wildcard matching for all subdomains
         ],
         "methods": ["POST", "GET", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
