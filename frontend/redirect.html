@@ -74,15 +74,23 @@
 </div>
 
 <script>
-    const BACKEND_BASE = 'https://api.n06.me';
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const shortCodeParam = urlParams.get('code');
+    const BACKEND_BASE = 'https://secure-url-shortener-b6nj.onrender.com';
 
     const statusMsg = document.getElementById('statusMsg');
     const redirectContent = document.getElementById('redirectContent');
     const unmaskedUrl = document.getElementById('unmaskedUrl');
     const confirmProceedBtn = document.getElementById('confirmProceedBtn');
+
+    const hostname = window.location.hostname; // e.g., "wanted-detective.n06.me"
+    let shortCodeParam = null;
+
+    const parts = hostname.split('.');
+if (parts.length > 2 && parts[0] !== 'www') {
+    shortCodeParam = parts[0];
+} else {
+    const urlParams = new URLSearchParams(window.location.search);
+    shortCodeParam = urlParams.get('code');
+}
 
     if (!shortCodeParam) {
         statusMsg.style.color = '#dc3545';
@@ -98,7 +106,10 @@
             .then(data => {
                 statusMsg.style.display = 'none';
                 unmaskedUrl.textContent = data.long_url;
-                confirmProceedBtn.href = data.long_url;
+                confirmProceedBtn.onclick = (e) => {
+                e.preventDefault();
+                window.location.href = data.long_url;
+                };
                 redirectContent.style.display = 'block';
             })
             .catch(err => {
