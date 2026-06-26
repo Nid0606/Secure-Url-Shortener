@@ -1,3 +1,16 @@
+(function checkSubdomainRouting() {
+    const hostname = window.location.hostname;
+    const cleanHostname = hostname.replace(/^www\./, ''); 
+    const parts = cleanHostname.split('.');
+
+    if (parts.length > 2 && parts[0] !== 'n06' && parts[0] !== 'api') {
+        const shortCode = parts[0];
+        console.log(`Subdomain detected: ${shortCode}. Redirecting execution pipeline...`);
+        
+        window.location.href = `/redirect.html?code=${shortCode}`;
+    }
+})();
+
 (function wakeUpBackend() {
     const BACKEND_PING_URL = 'https://api.n06.me/api/redirect/ping';
     console.log("Initializing silent background wake-up call to Render...");
