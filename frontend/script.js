@@ -5,8 +5,6 @@
 
     if (parts.length > 2 && parts[0] !== 'n06' && parts[0] !== 'api') {
         const shortCode = parts[0];
-        console.log(`Subdomain detected: ${shortCode}. Redirecting execution pipeline...`);
-        
         window.location.href = `/redirect.html?code=${shortCode}`;
     }
 })();
