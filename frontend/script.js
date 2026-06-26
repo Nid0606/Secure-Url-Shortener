@@ -23,11 +23,11 @@ const BACKEND_URL = 'https://secure-url-shortener-b6nj.onrender.com/api/shorten'
 button.addEventListener('click', async () => {
     button.textContent = "Generating...";
     button.disabled = true;
-    const sanitizedCustomCode = customCodeInput
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9-_]/g, '-') 
-        .replace(/-+/g, '-');
+    const sanitizedCustomCode = customCodeInput.value 
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-_]/g, '-') 
+    .replace(/-+/g, '-');
     
     const maxRetries = 3;
     let attempt = 0;
