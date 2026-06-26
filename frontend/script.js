@@ -18,7 +18,7 @@ slider.addEventListener('input', () => {
     lengthVal.textContent = slider.value;
 });
 
-const BACKEND_URL = 'https://api.n06.me/api/shorten';
+const BACKEND_URL = 'https://secure-url-shortener-b6nj.onrender.com/api/shorten';
 
 button.addEventListener('click', async () => {
     button.textContent = "Generating...";
