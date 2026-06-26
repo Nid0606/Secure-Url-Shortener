@@ -42,7 +42,7 @@ button.addEventListener('click', async () => {
                 body: JSON.stringify({ 
                     long_url: input.value,
                     length: slider.value,
-                    custom_code: sanitizedCustomCode.value
+                    custom_code: sanitizedCustomCode
                 })
             });
             
