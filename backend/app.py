@@ -9,7 +9,11 @@ from security import is_brand_impersonation, is_url_malicious
 app=Flask(__name__)
 CORS(app, resources={
     r"/api/*": {
-        "origins": ["https://n06.me", "https://www.n06.me"],
+        "origins": [
+            "https://n06.me", 
+            "https://www.n06.me",
+            re.compile(r"^https://[^/]+\.n06\.me$") # 🚀 Allows all custom subdomains!
+        ],
         "methods": ["POST", "GET", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
     }

@@ -81,16 +81,19 @@
     const unmaskedUrl = document.getElementById('unmaskedUrl');
     const confirmProceedBtn = document.getElementById('confirmProceedBtn');
 
-    const hostname = window.location.hostname; // e.g., "wanted-detective.n06.me"
+    const hostname = window.location.hostname;
     let shortCodeParam = null;
 
+    const cleanHostname = hostname.replace(/^www\./, '');
     const parts = hostname.split('.');
-if (parts.length > 2 && parts[0] !== 'www') {
+    
+    if (parts.length > 2) {
     shortCodeParam = parts[0];
-} else {
+    } 
+    else {
     const urlParams = new URLSearchParams(window.location.search);
     shortCodeParam = urlParams.get('code');
-}
+    }
 
     if (!shortCodeParam) {
         statusMsg.style.color = '#dc3545';
