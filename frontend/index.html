@@ -3,33 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL SHORTENER</title>
+    <title>URL Shortener</title>
 <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
+            background-color: #0d1117;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            background-image: 
+                repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 0px, rgba(255, 255, 255, 0.1) 1px, transparent 1px, transparent 40px),
+                repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 0px, rgba(255, 255, 255, 0.1) 1px, transparent 1px, transparent 40px);
+            background-size: 60px 60px;
+            background-position: 0px 0px, 30px 30px;
+        }
+        .big-box {
+            border: 2px solid #2462a4;
+            padding: 40px;
+            margin: 50px auto;
+            max-width: 600px;
+            border-radius: 16px;
+            box-shadow :0 0 6px rgba(255, 102, 204, 0.2);
+            background-color: #1a1a1a;
         }
         h2 {
-            color: #333;
-            margin-bottom: 5px;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+  
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.4),
+                0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        label[for="longUrl"]{
+            display: block;
+            margin-bottom: 8px;
+            color:#f8f6f6;
+            font-weight: bold;
+        }
+        label[for="lengthSlider"]{
+            color:#f8f6f6;
+            font-weight: bold;
         }
         input[type="text"] {
             width: 300px;
             padding: 12px;
             margin: 15px 0;
-            border: 1px solid #ccc;
+            border: 1px solid #ffffff;
             border-radius: 4px;
             font-size: 14px;
+            
         }
         button {
-            background-color: #007bff;
-            color: white;
+            background-color: #2462a4;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            letter-spacing: -0.5px;
             border: none;
             padding: 12px 24px;
             border-radius: 4px;
@@ -39,13 +71,13 @@
             transition: background 0.2s;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #2462a4 ;
         }
         .slider-container { margin: 15px 0; }
         #resultPanel {
             display: none;
-            background: #eef9ff;
-            border: 1px solid #bce1ff;
+            background: #060606;
+            border: 1px solid #000000;
             padding: 15px;
             border-radius: 6px;
             margin-top: 20px;
@@ -66,42 +98,44 @@
         #shortLinkDisplay {
             word-break: break-all;
             font-weight: bold;
-            color: #0066cc;
+            color: #2462a4;
         }
         #copyBtn {
-            background-color: #28a745;
+            background-color: #225d30;
             margin-top: 10px;
         }
-        #copyBtn:hover { background-color: #218838; }
+        #copyBtn:hover { background-color: #225d30; }
     </style>
     </head>
 
 <body>
-    <h2>Test URL Shorterner Connection</h2>
-    <label for="longUrl">Enter Long URL:</label>
-    <input type="text" id="longUrl" placeholder="Paste your long URL here..." value="https://github.com">
-    
-    <div class="slider-container">
-        <label for="lengthSlider">Short Code Length: <span id="lengthVal">6</span></label>
-        <input type="range" id="lengthSlider" min="4" max="12" value="6" style="width: 100%;">
-    </div>
+    <div class="big-box">
+        <h2>Secure URL Shortener</h2>
+        <label for="longUrl">Enter URL:</label>
+        <input type="text" id="longUrl" placeholder="Paste long URL here..." value="https://github.com">
+        
+        <div class="slider-container">
+            <label for="lengthSlider">Short Code Length: <span id="lengthVal">6</span></label>
+            <input type="range" id="lengthSlider" min="4" max="12" value="6" style="width: 100%;">
+        </div>
 
-    <div style="margin: 15px 0; text-align: left; width: 300px;">
-    <label for="customCode" style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">
-        Custom Alias (Optional):
-    </label>
-    <input type="text" id="customCode" placeholder="e.g., my-custom-link" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
-    </div>
+        <div style="margin: 15px 0; text-align: left; width: 300px;">
+        <label for="customCode" style="display: block; margin-bottom: 5px; font-weight: bold; color: #f8f6f6;">
+            Custom Alias (Optional):
+        </label>
+        <input type="text" id="customCode" placeholder="e.g., my-custom-link" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+        </div>
 
-    <button id="sendBtn">Generate Short Link</button>
+        <button id="sendBtn">Generate Short Link</button>
 
-    <div id="resultPanel">
-        <p>Your Shortened Link:</p>
-        <p id="shortLinkDisplay"></p>
-        <button id="copyBtn">Copy to Clipboard</button>
+        <div id="resultPanel">
+            <p>Your Shortened Link:</p>
+            <p id="shortLinkDisplay"></p>
+            <button id="copyBtn">Copy to Clipboard</button>
+        </div>
+        
+        <script src="script.js"></script>
     </div>
-    
-    <script src="script.js"></script>
 </body>
 </html>
 
