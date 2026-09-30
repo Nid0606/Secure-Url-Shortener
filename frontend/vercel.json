@@ -1,8 +1,8 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
     "rewrites":[
-        {
-            "source":"/",
+        {   
+            "source": "/(.*)",
             "has":[
                 {
                     "type": "host",
@@ -10,10 +10,6 @@
                 }
             ],
             "destination":"/redirect.html"
-        },
-        {
-            "source":"/",
-            "destination":"/index.html"
         }
     ]
 
