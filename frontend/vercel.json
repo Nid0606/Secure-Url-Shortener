@@ -1,16 +1,14 @@
 {
-  "rewrites": {
-    "beforeFiles": [
-      {
-        "has": [
-          {
-            "type": "host",
-            "value": "(?!www\\.)(?<subdomain>[^.]+)\\.n06\\.me"
-          }
-        ],
-        "source": "/(.*)",
-        "destination": "/redirect.html"
-      }
-    ]
-  }
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "(?!www\\.)(?<subdomain>[^.]+)\\.n06\\.me"
+        }
+      ],
+      "destination": "/redirect.html"
+    }
+  ]
 }
