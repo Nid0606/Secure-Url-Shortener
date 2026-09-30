@@ -3,10 +3,6 @@
     const cleanHostname = hostname.replace(/^www\./, ''); 
     const parts = cleanHostname.split('.');
 
-    if (parts.length > 2 && parts[0] !== 'n06' && parts[0] !== 'api') {
-        const shortCode = parts[0];
-        window.location.href = `/redirect.html?code=${shortCode}`;
-    }
 })();
 
 (function wakeUpBackend() {

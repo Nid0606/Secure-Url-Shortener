@@ -103,8 +103,8 @@
     const hostname = window.location.hostname;
     let shortCodeParam = null;
 
-    const urlParams = new URLSearchParams(window.location.search);
-    shortCodeParam = urlParams.get('code');
+    const parts= hostname.split(".");
+    shortCodeParam = parts[0];
 
     if (!shortCodeParam) {
         const cleanHostname = hostname.replace(/^www\./, '');
