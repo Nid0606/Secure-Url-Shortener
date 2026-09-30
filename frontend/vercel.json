@@ -1,16 +1,16 @@
 {
-    "$schema": "https://openapi.vercel.sh/vercel.json",
-    "rewrites":[
-        {   
-            "source": "/(.*)",
-            "has":[
-                {
-                    "type": "host",
-                    "value":"(?<subdomain>[a-zA-Z0-9-]+)\\.n06\\.me"
-                }
-            ],
-            "destination":"/redirect.html"
-        }
+  "rewrites": {
+    "beforeFiles": [
+      {
+        "has": [
+          {
+            "type": "host",
+            "value": "(?!www\\.)(?<subdomain>[^.]+)\\.n06\\.me"
+          }
+        ],
+        "source": "/(.*)",
+        "destination": "/redirect.html"
+      }
     ]
-
+  }
 }
